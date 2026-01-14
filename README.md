@@ -1,15 +1,29 @@
 # Game
 
-This repository contains a simple random number guessing game implemented in Python.
+Ce dépôt contient des exemples de petits projets en Python.
 
-## How to Play
+## Applications disponibles
 
-1. Make sure you have Python 3 installed.
-2. Run the game:
+### Suivi des compléments alimentaires
+
+Une application en ligne de commande pour enregistrer vos compléments, noter chaque prise et consulter un résumé quotidien.
+
+**Lancer l'application :**
+
+```bash
+python supplement_tracker.py
+```
+
+Les données sont sauvegardées dans `supplement_data.json`.
+
+### Jeu du nombre aléatoire
+
+1. Assurez-vous d'avoir Python 3 installé.
+2. Lancez le jeu :
 
    ```bash
    python random_number_game.py
    ```
-3. Guess the number between 1 and 100. Type `quit` to exit the game.
+3. Devinez le nombre entre 1 et 100. Tapez `quit` pour quitter.
 
-Enjoy!
+Amusez-vous bien !
