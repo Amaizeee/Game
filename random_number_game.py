@@ -295,22 +295,24 @@ def choose_team() -> str:
 
 
 WEB_APP_HTML = """<!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Grid Preview</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>The Grid — Mobile Preview</title>
   <style>
     :root {
       --bg: #0A0A0A;
-      --panel: rgba(18, 18, 24, 0.82);
+      --phone: #101017;
+      --panel: rgba(14, 18, 30, 0.74);
       --line: rgba(255, 255, 255, 0.14);
       --cyan: #00E5FF;
       --violet: #9B5CFF;
       --ember: #FF6A00;
       --acid: #B6FF00;
       --text: #F8FAFC;
-      --muted: #8B93A7;
+      --muted: #97A0B8;
+      --street: rgba(255, 255, 255, 0.09);
     }
 
     * { box-sizing: border-box; }
@@ -320,47 +322,180 @@ WEB_APP_HTML = """<!doctype html>
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 20% 10%, rgba(0, 229, 255, 0.22), transparent 28rem),
-        radial-gradient(circle at 84% 18%, rgba(155, 92, 255, 0.18), transparent 24rem),
-        linear-gradient(135deg, #050505 0%, var(--bg) 48%, #111111 100%);
+        radial-gradient(circle at 16% 12%, rgba(0, 229, 255, 0.24), transparent 26rem),
+        radial-gradient(circle at 80% 0%, rgba(155, 92, 255, 0.2), transparent 30rem),
+        radial-gradient(circle at 70% 92%, rgba(182, 255, 0, 0.13), transparent 24rem),
+        linear-gradient(135deg, #030305 0%, var(--bg) 48%, #111018 100%);
       overflow-x: hidden;
     }
 
-    main {
+    .page {
       display: grid;
-      grid-template-columns: minmax(22rem, 1fr) minmax(20rem, 28rem);
+      grid-template-columns: minmax(20rem, 1fr) minmax(20rem, 26rem);
       gap: 2rem;
+      align-items: center;
       width: min(1180px, calc(100vw - 2rem));
+      min-height: 100vh;
       margin: 0 auto;
       padding: 2rem 0;
     }
 
-    .hero, .panel {
+    .pitch { padding: 1rem; }
+    .eyebrow { color: var(--cyan); font-size: 0.76rem; font-weight: 900; letter-spacing: 0.22em; text-transform: uppercase; }
+    h1 { margin: 0.55rem 0 0.8rem; font-size: clamp(3rem, 9vw, 7.2rem); line-height: 0.84; letter-spacing: -0.09em; }
+    .subtitle { max-width: 42rem; color: #CFD7EA; font-size: clamp(1rem, 2vw, 1.18rem); line-height: 1.7; }
+    .feature-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.4rem; }
+    .feature-row span {
       border: 1px solid var(--line);
-      border-radius: 28px;
-      background: var(--panel);
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(18px);
+      border-radius: 999px;
+      padding: 0.62rem 0.82rem;
+      color: #EAF2FF;
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+      font-size: 0.82rem;
+      font-weight: 800;
     }
 
-    .hero { padding: 2rem; }
-    .eyebrow { color: var(--cyan); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; }
-    h1 { margin: 0.4rem 0 0.7rem; font-size: clamp(2.5rem, 8vw, 5.7rem); line-height: 0.88; letter-spacing: -0.08em; }
-    .subtitle { max-width: 44rem; color: #C9D2E3; font-size: 1.05rem; line-height: 1.65; }
+    .phone {
+      position: relative;
+      width: min(100%, 410px);
+      min-height: 820px;
+      margin: 0 auto;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 48px;
+      padding: 0.75rem;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.2), transparent 14%),
+        linear-gradient(180deg, #1E2230, #07070B 28%, #11131E);
+      box-shadow: 0 42px 120px rgba(0,0,0,0.65), 0 0 90px rgba(0,229,255,0.1);
+    }
 
-    .map-wrap {
-      margin-top: 2rem;
-      perspective: 900px;
+    .screen {
+      position: relative;
+      min-height: 790px;
+      overflow: hidden;
+      border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #06070C;
+      isolation: isolate;
+    }
+
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent 49%, var(--street) 50%, transparent 51%) 0 0 / 92px 92px,
+        linear-gradient(0deg, transparent 49%, var(--street) 50%, transparent 51%) 0 0 / 92px 92px,
+        radial-gradient(circle at 50% 42%, rgba(0,229,255,0.18), transparent 18rem),
+        radial-gradient(circle at 10% 90%, rgba(255,106,0,0.14), transparent 14rem);
+      transform: rotate(0deg) scale(1.08);
+      opacity: 0.9;
+      z-index: -2;
+    }
+
+    .screen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.82), transparent 22%, transparent 62%, rgba(0,0,0,0.88));
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .statusbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 1.1rem 0.35rem;
+      color: #F7FBFF;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+    }
+
+    .hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.6rem 0.9rem;
+    }
+
+    .profile, .team-pill, .gps-pill {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(8, 11, 20, 0.72);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .profile { display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0.7rem; min-width: 0; }
+    .avatar-card {
+      position: relative;
+      width: 3.1rem;
+      height: 3.1rem;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 35%, #FFFFFF, var(--team, var(--cyan)) 34%, #111827 68%);
+      box-shadow: 0 0 24px var(--team, var(--cyan));
+      color: #051018;
+      font-size: 1.7rem;
+      font-weight: 1000;
+    }
+    .avatar-card::after {
+      content: "";
+      position: absolute;
+      inset: -0.35rem;
+      border: 1px solid color-mix(in srgb, var(--team, var(--cyan)) 72%, transparent);
+      border-radius: 22px;
+      opacity: 0.7;
+    }
+    .profile strong, .profile span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .profile span { color: var(--muted); font-size: 0.72rem; margin-top: 0.1rem; }
+    .gps-pill { padding: 0.75rem 0.85rem; color: var(--acid); font-weight: 900; font-size: 0.74rem; }
+
+    .map-stage {
+      position: relative;
+      height: 480px;
+      margin: 0.3rem 0.8rem 0;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08), transparent 16rem),
+        linear-gradient(135deg, rgba(0,229,255,0.05), rgba(155,92,255,0.08));
+      perspective: 760px;
+    }
+
+    .map-label {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 4;
+      padding: 0.55rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,0.52);
+      backdrop-filter: blur(14px);
+      color: #DDE7FF;
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
     }
 
     #grid {
+      position: absolute;
+      left: 50%;
+      top: 50%;
       display: grid;
-      gap: 0.35rem;
-      transform: rotateX(58deg) rotateZ(-42deg);
+      gap: 0.42rem;
+      width: 475px;
+      height: 475px;
+      transform: translate(-50%, -46%) rotateX(58deg) rotateZ(-42deg);
       transform-origin: center;
-      width: min(68vw, 620px);
-      aspect-ratio: 1;
-      margin: 1.5rem auto 4rem;
       filter: drop-shadow(0 36px 36px rgba(0, 0, 0, 0.55));
     }
 
@@ -368,97 +503,159 @@ WEB_APP_HTML = """<!doctype html>
       position: relative;
       border: 1px solid rgba(255,255,255,0.14);
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.035);
+      background: rgba(255, 255, 255, 0.04);
       min-width: 0;
       transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
     }
-
     .cell::after {
       content: "";
       position: absolute;
-      inset: 10%;
-      border-radius: 8px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.02));
-      opacity: 0.45;
+      inset: 12% 14% 0;
+      border-radius: 8px 8px 4px 4px;
+      background: linear-gradient(160deg, rgba(255,255,255,0.22), rgba(255,255,255,0.04));
+      transform: translateY(-12%);
+      opacity: 0.42;
     }
 
-    .fog { background: rgba(5, 5, 5, 0.9); border-color: rgba(255,255,255,0.05); opacity: 0.72; }
+    .fog { background: rgba(5, 5, 8, 0.9); border-color: rgba(255,255,255,0.04); opacity: 0.78; }
+    .fog::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: repeating-linear-gradient(45deg, transparent 0 7px, rgba(255,255,255,0.035) 8px 11px); }
     .cyan { --team: var(--cyan); }
     .violet { --team: var(--violet); }
     .ember { --team: var(--ember); }
     .acid { --team: var(--acid); }
-    .owned { background: color-mix(in srgb, var(--team) 42%, transparent); box-shadow: 0 0 18px color-mix(in srgb, var(--team) 48%, transparent); }
-    .sovereign { transform: translateY(-12px); box-shadow: 0 0 34px var(--team), inset 0 0 28px rgba(255,255,255,0.25); }
-    .player { transform: translateY(-22px) scale(1.08); box-shadow: 0 0 28px #fff, 0 0 46px var(--team); z-index: 3; }
+    .owned { background: color-mix(in srgb, var(--team) 42%, rgba(0,0,0,0.5)); box-shadow: 0 0 18px color-mix(in srgb, var(--team) 48%, transparent); }
+    .sovereign { transform: translateY(-18px); box-shadow: 0 0 34px var(--team), inset 0 0 28px rgba(255,255,255,0.25); }
+    .sovereign::before { content: "👑"; position: absolute; inset: -18px -8px auto auto; transform: rotateZ(42deg) rotateX(-58deg); z-index: 5; font-size: 1.1rem; }
+    .player { transform: translateY(-26px) scale(1.1); box-shadow: 0 0 34px #fff, 0 0 58px var(--team); z-index: 8; }
     .player::before {
-      content: "◎";
+      content: "";
       position: absolute;
-      inset: -30%;
+      inset: -68%;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,0.95) 0 10%, var(--team) 11% 25%, transparent 26% 100%);
+      box-shadow: 0 0 36px var(--team), 0 0 68px var(--team);
+      transform: rotateZ(42deg) rotateX(-58deg);
+      animation: pulse 1.5s ease-in-out infinite;
+      z-index: 5;
+    }
+    .player::after {
+      content: "🛸";
+      position: absolute;
+      inset: -76%;
       display: grid;
       place-items: center;
-      color: #fff;
-      font-size: 1.4rem;
-      text-shadow: 0 0 16px var(--team), 0 0 30px var(--team);
+      font-size: 1.55rem;
       transform: rotateZ(42deg) rotateX(-58deg);
+      z-index: 6;
+      filter: drop-shadow(0 0 12px var(--team));
     }
 
-    .panel { padding: 1.3rem; align-self: start; }
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; }
-    .stat { padding: 1rem; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,0.045); }
-    .stat span { display: block; color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; }
-    .stat strong { display: block; margin-top: 0.25rem; font-size: 1.2rem; }
-    .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.65rem; margin: 1rem 0; }
+    @keyframes pulse { 50% { transform: rotateZ(42deg) rotateX(-58deg) scale(1.18); opacity: 0.72; } }
+
+    .bottom-sheet {
+      position: absolute;
+      left: 0.8rem;
+      right: 0.8rem;
+      bottom: 0.85rem;
+      z-index: 6;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 1rem;
+      background: rgba(8, 10, 18, 0.86);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 -18px 60px rgba(0,0,0,0.44), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.55rem; }
+    .stat { padding: 0.72rem 0.55rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 17px; background: rgba(255,255,255,0.045); text-align: center; }
+    .stat span { display: block; color: var(--muted); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em; }
+    .stat strong { display: block; margin-top: 0.22rem; font-size: 1rem; }
+    .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem; margin-top: 0.85rem; }
     button {
+      min-height: 3rem;
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 16px;
-      padding: 0.85rem 0.75rem;
+      border-radius: 17px;
       color: var(--text);
-      background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.04));
+      background: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
       cursor: pointer;
-      font-weight: 800;
+      font-weight: 1000;
       letter-spacing: 0.04em;
+      touch-action: manipulation;
     }
     button:hover { border-color: var(--cyan); box-shadow: 0 0 18px rgba(0,229,255,0.25); }
+    .buy { color: #111; background: linear-gradient(135deg, #FFFFFF, var(--acid)); box-shadow: 0 0 22px rgba(182,255,0,0.35); }
     .wide { grid-column: span 3; }
-    pre { white-space: pre-wrap; color: #DDE7F8; line-height: 1.55; }
+    .readout { display: grid; gap: 0.35rem; margin-top: 0.85rem; color: #DDE7F8; font-size: 0.78rem; line-height: 1.38; }
+    .readout pre { margin: 0; white-space: pre-wrap; font: inherit; }
 
     @media (max-width: 860px) {
-      main { grid-template-columns: 1fr; }
-      #grid { width: min(86vw, 560px); }
+      body { background: #050509; }
+      .page { display: block; width: 100%; padding: 0; min-height: 100vh; }
+      .pitch { display: none; }
+      .phone { width: 100%; min-height: 100vh; border: 0; border-radius: 0; padding: 0; background: #050509; }
+      .screen { min-height: 100vh; border: 0; border-radius: 0; }
+      .map-stage { height: calc(100vh - 246px); min-height: 430px; margin: 0.1rem 0.7rem 0; }
+      #grid { width: 430px; height: 430px; }
+      .bottom-sheet { position: fixed; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <section class="hero">
-      <div class="eyebrow">MMO Territory Prototype</div>
+  <main class="page">
+    <section class="pitch">
+      <div class="eyebrow">Mobile-first territory MMO</div>
       <h1>The Grid</h1>
-      <p class="subtitle">A premium dark-mode city map where Bleu Cyan, Violet, Orange Braise, and Vert Acide fight for persistent 50m x 50m territory. Walk, reveal fog, capture cells, and buy sovereign visibility.</p>
-      <div class="map-wrap"><div id="grid" aria-label="The Grid map"></div></div>
+      <p class="subtitle">Cette preview ressemble maintenant à une app mobile : avatar visible, carte urbaine sombre, grille 2.5D, cellules 3D, contrôles tactiles et feedback temps réel.</p>
+      <div class="feature-row">
+        <span>Avatar néon</span>
+        <span>Carte 2.5D</span>
+        <span>Fog of war</span>
+        <span>Mode souverain</span>
+      </div>
     </section>
 
-    <aside class="panel">
-      <div class="eyebrow">Live Preview</div>
-      <div class="stat-grid">
-        <div class="stat"><span>Level</span><strong id="level">—</strong></div>
-        <div class="stat"><span>XP</span><strong id="xp">—</strong></div>
-        <div class="stat"><span>Radius</span><strong id="radius">—</strong></div>
-        <div class="stat"><span>Trail</span><strong id="trail">—</strong></div>
+    <section class="phone" aria-label="Mobile game preview">
+      <div class="screen">
+        <div class="statusbar"><span>9:41</span><span>5G ▰▰▰ 🔋</span></div>
+        <div class="hud">
+          <div class="profile">
+            <div class="avatar-card" id="avatar">◎</div>
+            <div><strong id="player-name">Neon Runner</strong><span id="team-name">Bleu Cyan</span></div>
+          </div>
+          <div class="gps-pill">GPS LIVE</div>
+        </div>
+
+        <div class="map-stage">
+          <div class="map-label">Mapbox-style city grid · 50m</div>
+          <div id="grid" aria-label="The Grid map"></div>
+        </div>
+
+        <aside class="bottom-sheet">
+          <div class="stat-grid">
+            <div class="stat"><span>Lvl</span><strong id="level">—</strong></div>
+            <div class="stat"><span>XP</span><strong id="xp">—</strong></div>
+            <div class="stat"><span>Rayon</span><strong id="radius">—</strong></div>
+            <div class="stat"><span>Trail</span><strong id="trail">—</strong></div>
+          </div>
+          <div class="controls">
+            <button></button><button data-move="n">▲</button><button></button>
+            <button data-move="w">◀</button><button class="buy" data-buy="day">BUY</button><button data-move="e">▶</button>
+            <button></button><button data-move="s">▼</button><button></button>
+            <button class="wide buy" data-buy="week">Souverain 1 semaine</button>
+          </div>
+          <div class="readout">
+            <pre id="status"></pre>
+            <pre id="leaderboard"></pre>
+          </div>
+        </aside>
       </div>
-      <div class="controls">
-        <button></button><button data-move="n">N</button><button></button>
-        <button data-move="w">W</button><button data-buy="day">BUY</button><button data-move="e">E</button>
-        <button></button><button data-move="s">S</button><button></button>
-        <button class="wide" data-buy="week">Sovereign Week</button>
-      </div>
-      <pre id="status"></pre>
-      <pre id="leaderboard"></pre>
-    </aside>
+    </section>
   </main>
 
   <script>
     const grid = document.querySelector('#grid');
+    const avatar = document.querySelector('#avatar');
     const teamClass = { cyan: 'cyan', violet: 'violet', ember: 'ember', acid: 'acid' };
+    const teamNames = { cyan: 'Bleu Cyan', violet: 'Violet', ember: 'Orange Braise', acid: 'Vert Acide' };
 
     async function api(path) {
       const response = await fetch(path);
@@ -467,7 +664,13 @@ WEB_APP_HTML = """<!doctype html>
     }
 
     function render(state) {
+      const currentTeam = teamClass[state.player.team];
       grid.style.gridTemplateColumns = `repeat(${state.size}, 1fr)`;
+      document.body.className = currentTeam;
+      avatar.className = `avatar-card ${currentTeam}`;
+      avatar.textContent = state.player.avatar;
+      document.querySelector('#player-name').textContent = state.player.name;
+      document.querySelector('#team-name').textContent = teamNames[state.player.team];
       grid.innerHTML = '';
       for (const cell of state.cells) {
         const tile = document.createElement('div');
@@ -476,15 +679,15 @@ WEB_APP_HTML = """<!doctype html>
         if (cell.team) tile.classList.add(teamClass[cell.team], 'owned');
         if (cell.sovereign) tile.classList.add('sovereign');
         if (cell.x === state.player.x && cell.y === state.player.y) {
-          tile.classList.add('player', teamClass[state.player.team]);
+          tile.classList.add('player', currentTeam);
         }
-        tile.title = cell.sovereign ? `Sovereign: ${cell.sovereignOwner}` : `${cell.x}, ${cell.y}`;
+        tile.title = cell.sovereign ? `Souverain: ${cell.sovereignOwner}` : `${cell.x}, ${cell.y}`;
         grid.appendChild(tile);
       }
       document.querySelector('#level').textContent = state.player.level;
       document.querySelector('#xp').textContent = state.player.xp;
       document.querySelector('#radius').textContent = state.player.captureRadius;
-      document.querySelector('#trail').textContent = state.player.trailIntensity;
+      document.querySelector('#trail').textContent = state.player.trailIntensity.replace(' ', '\n');
       document.querySelector('#status').textContent = state.status;
       document.querySelector('#leaderboard').textContent = state.leaderboard;
     }
@@ -494,6 +697,11 @@ WEB_APP_HTML = """<!doctype html>
       const buy = event.target.dataset.buy;
       if (move) render(await api(`/api/move?direction=${move}`));
       if (buy) render(await api(`/api/buy?duration=${buy}`));
+    });
+
+    window.addEventListener('keydown', async (event) => {
+      const keys = { ArrowUp: 'n', ArrowDown: 's', ArrowLeft: 'w', ArrowRight: 'e' };
+      if (keys[event.key]) render(await api(`/api/move?direction=${keys[event.key]}`));
     });
 
     api('/api/state').then(render).catch((error) => {

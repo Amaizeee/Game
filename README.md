@@ -1,12 +1,12 @@
 # The Grid
 
-The Grid is a terminal prototype for a real-world geolocation territory MMO. The production vision is a premium dark-mode 2.5D map where four electric factions compete to color a living city grid made of 50m x 50m cells.
+The Grid is a mobile-first browser and terminal prototype for a real-world geolocation territory MMO. The production vision is a premium dark-mode 2.5D map where four electric factions compete to color a living city grid made of 50m x 50m cells.
 
 ## Core Vision
 
 - **World:** the city is represented as square territory cells, matching the intended 50m x 50m live GPS grid.
 - **Conflict:** four factions compete for control: Bleu Cyan, Violet, Orange Braise, and Vert Acide.
-- **Style:** the terminal renderer uses a deep-black map mood, fog glyphs, neon faction initials, and sovereign glow markers as a lightweight stand-in for the planned glass/metal 3D buildings.
+- **Style:** the browser preview now presents a mobile app shell with a visible neon avatar, dark city-map background, 2.5D grid, extruded cell blocks, tactile controls, and sovereign glow markers as a lightweight stand-in for the planned Mapbox/mobile experience.
 
 ## Gameplay Implemented
 
@@ -62,7 +62,7 @@ Le prototype actuel reste volontairement local et sans dépendances, mais la ver
 
 ## Run Locally on Your Computer
 
-The Grid uses only the Python standard library, so there are no packages to install.
+The Grid uses only the Python standard library, so there are no packages to install. The browser preview is designed mobile-first: open it on a phone-sized browser window or use your browser devtools device toolbar to test the mobile layout.
 
 1. Install **Python 3.11+** from [python.org](https://www.python.org/downloads/) if it is not already installed.
 2. Download or clone this repository, then open a terminal in the project folder.
